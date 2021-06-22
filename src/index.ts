@@ -3,6 +3,31 @@ document.addEventListener("DOMContentLoaded", function () {
   var ctx = canvas.getContext("2d");
 
   gridCiz(ctx);
+  blockCiz(ctx, 7, 9, [
+    [0, 0, 0],
+    [0, 1, 1],
+    [0, 1, 1],
+  ]);
+  blockCiz(ctx, 1, 4, [
+    [1, 1, 1],
+    [1, 0, 0],
+    [0, 0, 0],
+  ]);
+  blockCiz(ctx, 9, 15, [
+    [1, 1, 1],
+    [0, 1, 0],
+    [0, 0, 0],
+  ]);
+  blockCiz(ctx, 13, 19, [
+    [1, 1, 1],
+    [1, 1, 0],
+    [1, 0, 0],
+  ]);
+  blockCiz(ctx, 20, 17, [
+    [1, 0, 0],
+    [1, 1, 1],
+    [1, 0, 1],
+  ]);
 
   //pozisyon
   var pozisyon = document.getElementById("position") as HTMLDivElement;
@@ -26,4 +51,23 @@ function gridCiz(ctx: CanvasRenderingContext2D) {
   }
 
   ctx.stroke();
+}
+
+function kareCiz(ctx: CanvasRenderingContext2D, x: number, y: number) {
+  ctx.fillRect(x * 20, y * 20, 20, 20);
+}
+
+function blockCiz(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  blokNoktalar: Array<Array<number>>
+) {
+  for (var i = 0; i < blokNoktalar.length; i++) {
+    for (var j = 0; j < blokNoktalar[i].length; j++) {
+      if (blokNoktalar[i][j] == 1) {
+        kareCiz(ctx, i + x, j + y);
+      }
+    }
+  }
 }
