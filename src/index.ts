@@ -5,10 +5,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //35e kadar 20şer arttırarak dön. Böylece 700 pixellik alanda çiz
   for (var i = 0; i < 35; i += 1) {
-    console.log(i);
     ctx.moveTo(0, i * 20);
     ctx.lineTo(500, i * 20);
   }
+
+  for (var j = 0; j < 25; j++) {
+    ctx.moveTo(20 * j, 0);
+    ctx.lineTo(20 * j, 700);
+  }
+
   ctx.stroke();
 
   //pozisyon
