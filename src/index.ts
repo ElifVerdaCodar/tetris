@@ -1,39 +1,63 @@
+import { matrixSaatYonundeCevir } from "./hesaplamalar";
+
+var aktifBlokX = 12;
+var aktifBlokY = 3;
+var bloklar = [
+  [
+    [0, 0, 0],
+    [0, 1, 1],
+    [0, 1, 1],
+  ],
+  [
+    [1, 1, 1],
+    [1, 0, 0],
+    [0, 0, 0],
+  ],
+  [
+    [1, 1, 1],
+    [1, 1, 0],
+    [1, 0, 0],
+  ],
+  [
+    [1, 0, 0],
+    [1, 1, 1],
+    [1, 0, 1],
+  ],
+  [
+    [1, 1, 0],
+    [1, 1, 0],
+    [1, 0, 0],
+  ],
+];
+
 document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas") as HTMLCanvasElement;
   var ctx = canvas.getContext("2d");
 
   gridCiz(ctx);
-  blockCiz(ctx, 7, 9, [
-    [0, 0, 0],
-    [0, 1, 1],
-    [0, 1, 1],
-  ]);
-  blockCiz(ctx, 1, 4, [
-    [1, 1, 1],
-    [1, 0, 0],
-    [0, 0, 0],
-  ]);
-  blockCiz(ctx, 9, 15, [
-    [1, 1, 1],
-    [0, 1, 0],
-    [0, 0, 0],
-  ]);
-  blockCiz(ctx, 13, 19, [
-    [1, 1, 1],
-    [1, 1, 0],
-    [1, 0, 0],
-  ]);
-  blockCiz(ctx, 20, 17, [
-    [1, 0, 0],
-    [1, 1, 1],
-    [1, 0, 1],
-  ]);
 
   //pozisyon
   var pozisyon = document.getElementById("position") as HTMLDivElement;
   canvas.addEventListener("mousemove", function (event) {
     pozisyon.innerText = event.clientX + "," + event.clientY;
   });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key == "ArrowLeft") {
+      aktifBlokX = aktifBlokX - 1;
+    } else if (event.key == "ArrowRight") {
+      aktifBlokX = aktifBlokX + 1;
+    } else if (event.key == "ArrowDown") {
+      aktifBlokY = aktifBlokY + 1;
+    } else {
+      return;
+    }
+    ctx.clearRect(0, 0, 500, 700);
+    blockCiz(ctx, aktifBlokX, aktifBlokY, bloklar[1]);
+    gridCiz(ctx);
+  });
+
+  blockCiz(ctx, aktifBlokX, aktifBlokY, bloklar[1]);
 });
 
 function gridCiz(ctx: CanvasRenderingContext2D) {
@@ -53,7 +77,13 @@ function gridCiz(ctx: CanvasRenderingContext2D) {
   ctx.stroke();
 }
 
-function kareCiz(ctx: CanvasRenderingContext2D, x: number, y: number) {
+function kareCiz(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  renk: string
+) {
+  ctx.fillStyle = renk;
   ctx.fillRect(x * 20, y * 20, 20, 20);
 }
 
@@ -66,7 +96,9 @@ function blockCiz(
   for (var i = 0; i < blokNoktalar.length; i++) {
     for (var j = 0; j < blokNoktalar[i].length; j++) {
       if (blokNoktalar[i][j] == 1) {
-        kareCiz(ctx, i + x, j + y);
+        kareCiz(ctx, i + x, j + y, "black");
+      } else {
+        kareCiz(ctx, i + x, j + y, "yellow");
       }
     }
   }
